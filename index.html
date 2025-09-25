@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <title>Shahriar Alif | Protected Resources</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#111827;
+      --muted:#cbd5e1;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background:linear-gradient(180deg,#071029 0%, #071730 100%);
+      color:var(--muted);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+
+    header{
+      width:100%;
+      padding:20px 16px;
+      text-align:center;
+      color:#fff;
+      background:linear-gradient(90deg,#0f1724 0%, #0b2540 100%);
+      box-shadow:0 6px 24px rgba(2,6,23,0.6);
+    }
+    header h1{margin:0;font-size:20px;letter-spacing:0.6px}
+    header p{margin:6px 0 0 0;font-size:13px;color:#9fb3d6}
+
+    main{width:100%;max-width:1100px;padding:28px;flex:1;display:flex;flex-direction:column;align-items:center}
+
+    /* Gate box */
+    .gate{
+      background:var(--card);
+      padding:26px;
+      border-radius:12px;
+      box-shadow:0 10px 30px rgba(2,6,23,0.6);
+      width:100%;
+      max-width:520px;
+      text-align:center;
+      margin-top:28px;
+    }
+    .gate h2{color:#f8fafc;margin:0 0 8px 0}
+    .gate p{margin:0 0 16px 0;color:#9fb3d6;font-size:14px}
+    .pw-row{display:flex;gap:8px;justify-content:center;align-items:center}
+    .pw-row input{
+      padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);
+      background:#0b1220;color:#e6eef8;font-size:15px;width:260px;outline:none;
+    }
+    .pw-row button{
+      padding:10px 14px;border-radius:8px;border:none;background:#2563eb;color:#fff;font-weight:700;
+      cursor:pointer;
+    }
+    .msg{height:18px;margin-top:12px;color:#fb7185;font-size:14px}
+
+    /* Container for cards */
+    .container{
+      display:flex;
+      flex-wrap:wrap;
+      gap:20px;
+      justify-content:center;
+      margin-top:28px;
+      width:100%;
+    }
+
+    .card{
+      position:relative;
+      width:300px;
+      border-radius:14px;
+      padding:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      color:#e6eef8;
+      overflow:hidden;
+      text-align:center;
+      box-shadow:0 8px 30px rgba(2,6,23,0.6);
+      transition:transform .18s;
+    }
+    .card:hover{transform:translateY(-6px)}
+    .card h3{font-size:16px;margin:0 0 12px;color:#f8fafc}
+    .card .buttons{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+    .btn{
+      padding:9px 12px;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px;color:#fff;
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .btn-view{background:#3b82f6}
+    .btn-download{background:#10b981}
+
+    /* Animated glowing border - by using pseudo element */
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:linear-gradient(90deg,#ff4d6d,#ff9a3c,#7c3aed,#00e5c3,#ff4d6d);
+      background-size:400% 400%;
+      z-index:-2;
+      filter:blur(18px);
+      opacity:.9;
+      border-radius:16px;
+      animation:glow 8s linear infinite;
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:14px;
+      z-index:-1;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.15));
+    }
+    @keyframes glow{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+
+    /* top controls once logged in */
+    .topbar{
+      width:100%;max-width:1100px;display:flex;justify-content:space-between;align-items:center;margin-top:18px;
+    }
+    .topbar .info{color:#cfe6ff;font-size:14px}
+    .logout{
+      background:#ef4444;padding:8px 12px;border-radius:8px;color:white;border:none;font-weight:700;cursor:pointer;
+    }
+
+    /* Responsive */
+    @media (max-width:740px){
+      .pw-row{flex-direction:column}
+      .pw-row input{width:100%}
+      .container{gap:14px}
+      .card{width:100%}
+      .topbar{flex-direction:column;gap:8px;align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>✨ Shahriar Alif | The Royal সমাধান (Protected)</h1>
+    <p>নিচে পাসওয়ার্ড দিলে কনটেন্ট দেখা যাবে।</p>
+  </header>
+
+  <main>
+    <!-- Gate -->
+    <div class="gate" id="gateBox" aria-hidden="false">
+      <h2>🔐 পাসওয়ার্ড দিয়ে প্রবেশ কর</h2>
+      <p>এই পেজে কনটেন্ট দেখতে পাসওয়ার্ড দিন।</p>
+
+      <div class="pw-row">
+        <input id="passwordInput" type="password" placeholder="পাসওয়ার্ড লিখো" autocomplete="off" />
+        <button id="enterBtn">প্রবেশ</button>
+      </div>
+      <div class="msg" id="message"></div>
+     
+    </div>
+
+    <!-- Topbar shown after auth -->
+    <div class="topbar" id="topbar" style="display:none">
+      <div class="info">🔓 Access granted — Shahriar Alif-এর কনটেন্ট দেখানো হচ্ছে</div>
+      <div>
+        <button class="logout" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+
+    <!-- Cards container (injected by JS after auth) -->
+    <div class="container" id="cardsContainer" style="display:none"></div>
+
+   
+  </main>
+
+  <script>
+    /***********************************************
+     * Client-side password gate
+     *  - Change SECRET to whatever password you want.
+     *  - This stores a session flag in sessionStorage so user doesn't need to re-enter
+     *  - Card links are injected only after successful auth (reduces casual scraping)
+     *
+     * WARNING: This is client-side protection only. Not fully secure.
+     ***********************************************/
+    (function(){
+      // === CONFIGURE PASSWORD HERE ===
+      const SECRET = "GAED"; // <- পরিবর্তন করে নিজের পাসওয়ার্ড রাখো
+
+      // PDF items to show after auth (title, view link, download link)
+      const items = [
+        {
+          title: "The Royal রসায়ন প্রথম পত্র সৃজনশীল",
+          view: "https://drive.google.com/file/d/1Zii4VSVRVjQdhv24eGP1b503VlPUPZdP/view?usp=drivesdk",
+          download: "https://drive.google.com/uc?export=download&id=1Zii4VSVRVjQdhv24eGP1b503VlPUPZdP"
+        },
+        {
+          title: "The Royal রসায়ন দ্বিতীয় পত্র সৃজনশীল",
+          view: "https://drive.google.com/file/d/1fhAkMo-3AJPQFfYfxJtq7eu7YjbJjk_Y/view?usp=drivesdk",
+          download: "https://drive.google.com/uc?export=download&id=1fhAkMo-3AJPQFfYfxJtq7eu7YjbJjk_Y"
+        },
+        {
+          title: "The Royal পদার্থবিজ্ঞান প্রথম পত্র সৃজনশীল",
+          view: "https://drive.google.com/file/d/1-FyAs5d59qUmpFEWYdhH3megVEIJ_-Gk/view?usp=drivesdk",
+          download: "https://drive.google.com/uc?export=download&id=1-FyAs5d59qUmpFEWYdhH3megVEIJ_-Gk"
+        },
+        {
+          title: "The Royal পদার্থবিজ্ঞান দ্বিতীয় পত্র সৃজনশীল",
+          view: "https://drive.google.com/file/d/1jU7Oul83akY_YUrrXVmJ5Xkt3dFE1mwc/view?usp=drivesdk",
+          download: "https://drive.google.com/uc?export=download&id=1jU7Oul83akY_YUrrXVmJ5Xkt3dFE1mwc"
+        }
+      ];
+
+      // DOM refs
+      const gateBox = document.getElementById("gateBox");
+      const pwInput = document.getElementById("passwordInput");
+      const enterBtn = document.getElementById("enterBtn");
+      const msg = document.getElementById("message");
+      const cardsContainer = document.getElementById("cardsContainer");
+      const topbar = document.getElementById("topbar");
+      const logoutBtn = document.getElementById("logoutBtn");
+
+      // check sessionStorage
+      if(sessionStorage.getItem("protected_auth") === "true"){
+        showContent();
+      } else {
+        // keep focus on input
+        pwInput.focus();
+      }
+
+      enterBtn.addEventListener("click", tryAuth);
+      pwInput.addEventListener("keypress", function(e){
+        if(e.key === "Enter") tryAuth();
+      });
+
+      logoutBtn.addEventListener("click", function(){
+        sessionStorage.removeItem("protected_auth");
+        // refresh page to show gate
+        location.reload();
+      });
+
+      function tryAuth(){
+        const val = pwInput.value || "";
+        if(val === SECRET){
+          sessionStorage.setItem("protected_auth", "true");
+          showContent();
+        } else {
+          msg.textContent = "পাসওয়ার্ড ভুল। আবার চেষ্টা করো।";
+          pwInput.value = "";
+          pwInput.focus();
+        }
+      }
+
+      function showContent(){
+        // hide gate, show topbar and inject cards
+        gateBox.style.display = "none";
+        topbar.style.display = "flex";
+        cardsContainer.style.display = "flex";
+
+        // inject card HTML
+        cardsContainer.innerHTML = ""; // clear
+
+        items.forEach(it => {
+          const card = document.createElement("div");
+          card.className = "card";
+
+          const h = document.createElement("h3");
+          h.textContent = it.title;
+          card.appendChild(h);
+
+          const btnWrap = document.createElement("div");
+          btnWrap.className = "buttons";
+
+          const aView = document.createElement("a");
+          aView.className = "btn btn-view";
+          aView.href = it.view;
+          aView.target = "_blank";
+          aView.rel = "noopener noreferrer";
+          aView.innerHTML = "👀 View";
+          btnWrap.appendChild(aView);
+
+          const aDown = document.createElement("a");
+          aDown.className = "btn btn-download";
+          aDown.href = it.download;
+          aDown.innerHTML = "📥 Download";
+          btnWrap.appendChild(aDown);
+
+          card.appendChild(btnWrap);
+          cardsContainer.appendChild(card);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
