@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>বিকাশ পেমেন্ট গেটওয়ে - টেস্টিং</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .logo {
+            width: 120px;
+            margin-bottom: 10px;
+        }
+        
+        h1 {
+            color: #e2136e;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .payment-info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .payment-info p {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .payment-info .amount {
+            font-weight: bold;
+            color: #e2136e;
+            font-size: 18px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #e2136e;
+            outline: none;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: #e2136e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #c0105d;
+        }
+        
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .help-text {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .test-credentials {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 10px 15px;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+        
+        .test-credentials h3 {
+            color: #e2136e;
+            margin-bottom: 8px;
+        }
+        
+        .test-credentials ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .test-credentials li {
+            margin-bottom: 5px;
+        }
+        
+        .otp-section {
+            display: none;
+        }
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 30px 0;
+        }
+        
+        .success-icon {
+            font-size: 60px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #e2136e;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">bKash</div>
+            <h1>পেমেন্ট গেটওয়ে</h1>
+            <p class="subtitle">টেস্টিং পরিবেশ - কোন আসল টাকা লেনদেন হবে না</p>
+        </div>
+        
+        <div class="payment-info">
+            <p>মার্চেন্ট: <span>টেস্ট মার্চেন্ট</span></p>
+            <p>পেমেন্ট আইডি: <span>BK-20230715-12345</span></p>
+            <p>পরিমাণ: <span class="amount">৳ ৫০০.০০</span></p>
+        </div>
+        
+        <div id="payment-form">
+            <div class="form-group">
+                <label for="phone">বিকাশ মোবাইল নম্বর</label>
+                <input type="text" id="phone" placeholder="01XXXXXXXXX" maxlength="11">
+                <div id="phone-error" class="error-message">সঠিক মোবাইল নম্বর দিন (11 ডিজিট)</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="pin">বিকাশ পিন নম্বর</label>
+                <input type="password" id="pin" placeholder="XXXX" maxlength="4">
+                <div id="pin-error" class="error-message">সঠিক পিন নম্বর দিন (4 ডিজিট)</div>
+            </div>
+            
+            <button id="submit-btn" class="btn">পেমেন্ট করুন</button>
+            
+            <div class="otp-section" id="otp-section">
+                <div class="form-group">
+                    <label for="otp">ওটিপি নম্বর</label>
+                    <input type="text" id="otp" placeholder="XXXXX" maxlength="5">
+                    <div id="otp-error" class="error-message">সঠিক ওটিপি নম্বর দিন (5 ডিজিট)</div>
+                    <p class="help-text">আপনার মোবাইলে পাঠানো ৫ ডিজিটের কোডটি লিখুন</p>
+                </div>
+                
+                <button id="verify-btn" class="btn">যাচাই করুন</button>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>পেমেন্ট প্রক্রিয়া করা হচ্ছে...</p>
+        </div>
+        
+        <div class="success-message" id="success-message">
+            <div class="success-icon">✓</div>
+            <h2>পেমেন্ট সফল হয়েছে!</h2>
+            <p>ট্রানজেকশন আইডি: <strong>BK-TXN-987654321</strong></p>
+            <p>পরিমাণ: <strong>৳ ৫০০.০০</strong></p>
+            <p>আপনার বিকাশ একাউন্ট থেকে টাকা কেটে নেওয়া হয়েছে।</p>
+            <button id="new-payment-btn" class="btn" style="margin-top: 20px;">নতুন পেমেন্ট করুন</button>
+        </div>
+        
+        <div class="test-credentials">
+            <h3>টেস্টিং ক্রেডেনশিয়ালস</h3>
+            <ul>
+                <li>মোবাইল নম্বর: 01XXXXXXXXX (যেকোনো 11 ডিজিট)</li>
+                <li>পিন: 1234 (যেকোনো 4 ডিজিট)</li>
+                <li>ওটিপি: 12345 (যেকোনো 5 ডিজিট)</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>এটি শুধুমাত্র টেস্টিং পরিবেশ। কোন আসল টাকা লেনদেন হবে না।</p>
+            <p>© 2025 বিকাশ লিমিটেড। সর্বস্বত্ব সংরক্ষিত।</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneInput = document.getElementById('phone');
+            const pinInput = document.getElementById('pin');
+            const otpInput = document.getElementById('otp');
+            const submitBtn = document.getElementById('submit-btn');
+            const verifyBtn = document.getElementById('verify-btn');
+            const newPaymentBtn = document.getElementById('new-payment-btn');
+            const paymentForm = document.getElementById('payment-form');
+            const otpSection = document.getElementById('otp-section');
+            const loading = document.getElementById('loading');
+            const successMessage = document.getElementById('success-message');
+            const phoneError = document.getElementById('phone-error');
+            const pinError = document.getElementById('pin-error');
+            const otpError = document.getElementById('otp-error');
+            
+            // ফোন নম্বর ভ্যালিডেশন
+            phoneInput.addEventListener('input', function() {
+                const phone = phoneInput.value.trim();
+                if (phone.length === 11 && /^01\d{9}$/.test(phone)) {
+                    phoneError.style.display = 'none';
+                } else {
+                    phoneError.style.display = 'block';
+                }
+            });
+            
+            // পিন ভ্যালিডেশন
+            pinInput.addEventListener('input', function() {
+                const pin = pinInput.value.trim();
+                if (pin.length === 4 && /^\d{4}$/.test(pin)) {
+                    pinError.style.display = 'none';
+                } else {
+                    pinError.style.display = 'block';
+                }
+            });
+            
+            // ওটিপি ভ্যালিডেশন
+            otpInput.addEventListener('input', function() {
+                const otp = otpInput.value.trim();
+                if (otp.length === 5 && /^\d{5}$/.test(otp)) {
+                    otpError.style.display = 'none';
+                } else {
+                    otpError.style.display = 'block';
+                }
+            });
+            
+            // পেমেন্ট সাবমিট
+            submitBtn.addEventListener('click', function() {
+                const phone = phoneInput.value.trim();
+                const pin = pinInput.value.trim();
+                
+                let isValid = true;
+                
+                if (!(phone.length === 11 && /^01\d{9}$/.test(phone))) {
+                    phoneError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    phoneError.style.display = 'none';
+                }
+                
+                if (!(pin.length === 4 && /^\d{4}$/.test(pin))) {
+                    pinError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    pinError.style.display = 'none';
+                }
+                
+                if (isValid) {
+                    // লোডিং দেখানো
+                    paymentForm.style.display = 'none';
+                    loading.style.display = 'block';
+                    
+                    // সিমুলেটেড API কল
+                    setTimeout(function() {
+                        loading.style.display = 'none';
+                        otpSection.style.display = 'block';
+                        paymentForm.style.display = 'block';
+                        submitBtn.style.display = 'none';
+                        
+                        // সিমুলেটেড OTP পাঠানো
+                        alert('ওটিপি পাঠানো হয়েছে: 12345');
+                    }, 2000);
+                }
+            });
+            
+            // ওটিপি যাচাই
+            verifyBtn.addEventListener('click', function() {
+                const otp = otpInput.value.trim();
+                
+                if (!(otp.length === 5 && /^\d{5}$/.test(otp))) {
+                    otpError.style.display = 'block';
+                    return;
+                } else {
+                    otpError.style.display = 'none';
+                }
+                
+                // লোডিং দেখানো
+                paymentForm.style.display = 'none';
+                loading.style.display = 'block';
+                
+                // সিমুলেটেড API কল
+                setTimeout(function() {
+                    loading.style.display = 'none';
+                    successMessage.style.display = 'block';
+                    
+                    // সিমুলেটেড সফল পেমেন্ট
+                    console.log('পেমেন্ট সফল হয়েছে!');
+                }, 2000);
+            });
+            
+            // নতুন পেমেন্ট
+            newPaymentBtn.addEventListener('click', function() {
+                // ফর্ম রিসেট করা
+                phoneInput.value = '';
+                pinInput.value = '';
+                otpInput.value = '';
+                phoneError.style.display = 'none';
+                pinError.style.display = 'none';
+                otpError.style.display = 'none';
+                
+                // UI রিসেট করা
+                successMessage.style.display = 'none';
+                otpSection.style.display = 'none';
+                paymentForm.style.display = 'block';
+                submitBtn.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
