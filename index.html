@@ -1,199 +1,221 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>404 Not Found — Site Temporarily Down</title>
-  <meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 Not Found — Site Down</title>
 
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-
+<style>
     body {
-      font-family:"Inter","Noto Sans Bengali",system-ui;
-      background: radial-gradient(circle at top, #1d1f33, #0d0e16 70%);
-      color:#fff;
-      height:100vh;
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
+        margin: 0;
+        padding: 0;
+        font-family: "Inter", "Noto Sans Bengali", sans-serif;
+        background: radial-gradient(circle at 20% 20%, #f3a6ff, #8bb0ff, #5b4bff);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
     }
 
-    .bg {
-      position:fixed;
-      inset:0;
-      background:
-        linear-gradient(135deg, rgba(50,20,100,0.25), rgba(10,10,40,0.5)),
-        radial-gradient(circle at 30% 20%, rgba(255,80,120,0.15), transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(80,130,255,0.18), transparent 40%);
-      background-blend-mode: screen;
-      animation: bgmove 14s infinite linear;
-      display:grid;
-      place-items:center;
-      z-index:-1;
+    /* Background floating bokeh circles */
+    .bokeh {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
     }
 
-    @keyframes bgmove {
-      0% { transform:scale(1.1) translateY(0); }
-      50% { transform:scale(1.15) translateY(-12px); }
-      100% { transform:scale(1.1) translateY(0); }
+    .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.25);
+        filter: blur(40px);
+        animation: float 10s infinite ease-in-out;
     }
 
-    .card {
-      width:min(920px,92%);
-      background:rgba(255,255,255,0.06);
-      backdrop-filter:blur(22px) saturate(150%);
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:20px;
-      padding:40px;
-      display:grid;
-      grid-template-columns:1fr 330px;
-      gap:28px;
-      box-shadow:0 20px 60px rgba(0,0,0,0.55);
-      animation:pulse 2.6s infinite ease-in-out;
+    @keyframes float {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-40px); }
+        100% { transform: translateY(0); }
     }
 
-    @keyframes pulse {
-      0% { transform:scale(1); }
-      50% { transform:scale(1.02); }
-      100% { transform:scale(1); }
+    /* Main Glass Card */
+    .glass-card {
+        width: min(900px, 92%);
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(35px) saturate(160%);
+        border-radius: 30px;
+        padding: 40px;
+        display: grid;
+        grid-template-columns: 1fr 280px;
+        gap: 35px;
+        border: 1px solid rgba(255,255,255,0.35);
+        box-shadow: 0 30px 70px rgba(0,0,0,0.25);
     }
 
-    .code {
-      font-size:clamp(42px,6vw,66px);
-      font-weight:800;
-      background:linear-gradient(90deg,#ff99bb,#f0d5ff,#9ccaff);
-      -webkit-background-clip:text;
-      color:transparent;
-      text-shadow:0 3px 20px rgba(255,150,255,0.3);
+    h1 span {
+        font-size: 70px;
+        font-weight: 800;
+        background: linear-gradient(90deg, #ff7ad9, #7ab8ff);
+        -webkit-background-clip: text;
+        color: transparent;
     }
 
-    .sub { font-size:18px; opacity:0.95; margin-top:10px; }
-    .bn { font-size:20px; font-weight:600; }
+    h1 {
+        font-size: 55px;
+        margin: 0;
+        color: #222;
+    }
+
+    .sub {
+        font-size: 18px;
+        margin-top: 8px;
+        opacity: 0.9;
+    }
+
+    .bn {
+        font-size: 19px;
+        font-weight: 600;
+    }
 
     .pill {
-      display:inline-block;
-      padding:8px 14px;
-      background:rgba(255,255,255,0.12);
-      border-radius:12px;
-      font-size:13px;
-      margin-top:12px;
-      margin-right:8px;
+        display: inline-block;
+        padding: 8px 15px;
+        background: rgba(255,255,255,0.3);
+        border-radius: 12px;
+        margin-top: 12px;
+        margin-right: 8px;
+        font-size: 13px;
     }
 
-    .orb {
-      background:linear-gradient(135deg, rgba(30,30,60,0.85), rgba(15,15,30,0.9));
-      border:1px solid rgba(255,255,255,0.08);
-      box-shadow:0 10px 45px rgba(0,0,0,0.7);
-      width:100%;
-      border-radius:18px;
-      padding:20px;
-      display:flex;
-      justify-content:space-around;
-      align-items:center;
+    /* Countdown box */
+    .timer-box {
+        background: rgba(255,255,255,0.2);
+        border-radius: 25px;
+        padding: 20px;
+        border: 1px solid rgba(255,255,255,0.4);
+        text-align: center;
+        backdrop-filter: blur(25px);
     }
 
-    .countdown-unit { text-align:center; }
-    .countdown-unit .big {
-      font-size:36px;
-      font-weight:900;
-      color:white;
-      text-shadow:0 0 12px rgba(120,160,255,0.7);
+    .unit-box {
+        margin-bottom: 15px;
+        padding: 10px;
+        background: rgba(255,255,255,0.25);
+        border-radius: 15px;
+        border: 1px solid rgba(255,255,255,0.35);
     }
 
-    .countdown-unit .label {
-      font-size:13px;
-      opacity:0.8;
-      margin-top:4px;
+    .unit-label {
+        font-size: 16px;
+        opacity: 0.85;
     }
 
-    .hint { font-size:13px; opacity:0.85; margin-top:8px; }
-
-    @media(max-width:820px){
-      .card { grid-template-columns:1fr; text-align:center; }
+    .unit-value {
+        font-size: 32px;
+        font-weight: 700;
+        margin-top: 5px;
     }
 
-    /* Footer Email */
-    .footer {
-      margin-top:20px;
-      font-size:14px;
-      opacity:0.75;
-      letter-spacing:0.5px;
-      text-align:center;
+    .footer-text {
+        margin-top: 15px;
+        font-size: 13px;
+        opacity: 0.75;
+        line-height: 1.5;
     }
 
-    .footer a {
-      color:#9ccaff;
-      text-decoration:none;
-      font-weight:600;
+    @media(max-width: 820px) {
+        .glass-card {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
     }
-  </style>
+</style>
 </head>
 
 <body>
-  <div class="bg"></div>
 
-  <main class="card">
-    <section>
-      <h1 class="code">404 Not Found</h1>
-      <p class="sub bn">This site can't be reached — মেইনটেনেন্স মোড (৫ দিন)</p>
-      <p class="sub">গুরুত্বপূর্ণ আপডেট চলছে — সাময়িকভাবে সাইটটি অফলাইনে।</p>
+<div class="bokeh">
+    <div class="circle" style="width:250px; height:250px; top:10%; left:5%;"></div>
+    <div class="circle" style="width:300px; height:300px; bottom:15%; right:10%;"></div>
+    <div class="circle" style="width:200px; height:200px; top:60%; left:20%;"></div>
+</div>
 
-      <span class="pill">Downtime: 5 days</span>
-      <span class="pill">Mode: Maintenance</span>
-    </section>
+<div class="glass-card">
 
-    <aside>
-      <div class="orb">
-        <div class="countdown-unit">
-          <div class="big" id="days">00</div>
-          <span class="label">দিন</span>
+    <div>
+        <h2 style="text-align:center; margin-bottom:20px; color:#222;">Site Temporarily Down</h2>
+        
+        <h1><span>404</span> Not Found</h1>
+
+        <p class="sub bn">this site can’t be reached — মেইনটেনেন্স মোড (৫ দিন)</p>
+       <b> <p class="sub">
+            এমন জীবন করিবে গঠন মরনে হাসিবে তুমি কাঁদিবে ভূবন 
+        </p> </b>
+
+        <span class="pill">downtime: 5 days</span>
+        <span class="pill">mode: maintenance</span>
+
+      <b> <u> <i><p style="margin-top:15px; font-size:12px; opacity:0.7;">
+            server message: সার্ভার এখনও id=""আপডেটে হয়নি। অনুগ্রহ করে পাঁচ দিন পরে চেষ্টা করুন।
+        </p> </u> </i></b>
+    </div>
+
+    <!-- Right Countdown -->
+    <div class="timer-box">
+        <div class="unit-box">
+            <div class="unit-label">দিন</div>
+            <div class="unit-value" id="days">5</div>
         </div>
-        <div class="countdown-unit">
-          <div class="big" id="hours">00</div>
-          <span class="label">ঘণ্টা</span>
-        </div>
-        <div class="countdown-unit">
-          <div class="big" id="minutes">00</div>
-          <span class="label">মিনিট</span>
-        </div>
-        <div class="countdown-unit">
-          <div class="big" id="seconds">00</div>
-          <span class="label">সেকেন্ড</span>
-        </div>
-      </div>
 
-      <div class="hint">সাইটটি **৫ দিন** পর আবার চালু হবে।</div>
-      <div class="hint">প্রয়োজনে সাপোর্ট টিমের সাথে যোগাযোগ করুন।</div>
-    </aside>
-  </main>
+        <div class="unit-box">
+            <div class="unit-label">ঘণ্টা</div>
+            <div class="unit-value" id="hours">00</div>
+        </div>
 
-  <!-- Footer Email Added -->
-  <div class="footer">
-    Contact: <a href="mailto:shariarealif00@gmail.com">shariarealif00@gmail.com</a>
-  </div>
+        <div class="unit-box">
+            <div class="unit-label">মিনিট</div>
+            <div class="unit-value" id="minutes">00</div>
+        </div>
 
-  <script>
+        <div class="unit-box">
+            <div class="unit-label">সেকেন্ড</div>
+            <div class="unit-value" id="seconds">00</div>
+        </div>
+
+      <b>  <p class="footer-text">
+            সাইটটি ৫ দিন পর স্বাভাবিক অবস্থায় ফিরে আসবে। <br>
+            প্রয়োজনে যোগাযোগ করুন:  
+            <b style="color:#fff;">shariarealif00@gmail.com</b>
+        </p> </b>
+    </div>
+
+</div>
+
+<script>
     var countdownDate = new Date();
     countdownDate.setDate(countdownDate.getDate() + 5);
 
     setInterval(function() {
-      var now = new Date().getTime();
-      var distance = countdownDate - now;
+        let now = new Date().getTime();
+        let diff = countdownDate - now;
 
-      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        document.getElementById("days").textContent =
+            Math.floor(diff / (1000 * 60 * 60 * 24));
 
-      document.getElementById("days").textContent = String(days).padStart(2,"0");
-      document.getElementById("hours").textContent = String(hours).padStart(2,"0");
-      document.getElementById("minutes").textContent = String(minutes).padStart(2,"0");
-      document.getElementById("seconds").textContent = String(seconds).padStart(2,"0");
+        document.getElementById("hours").textContent =
+            Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        document.getElementById("minutes").textContent =
+            Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+        document.getElementById("seconds").textContent =
+            Math.floor((diff % (1000 * 60)) / 1000);
+
     }, 1000);
-  </script>
+</script>
 
 </body>
 </html>
